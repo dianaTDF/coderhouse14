@@ -1,0 +1,24 @@
+
+export class productMongooseDao {
+    async create(data){ 
+        throw new Error('create -> not implemented')
+    }
+    async read(query){ 
+        throw new Error('read -> not implemented')
+    }
+    async readMany(query){ 
+        throw new Error('readMany -> not implemented')
+    }
+    async update(data,query){ 
+        throw new Error('update -> not implemented')
+    }
+    async updateMany(data,query){ 
+        throw new Error('updateMany -> not implemented')
+    }
+    async delete(query){ 
+        throw new Error('delete -> not implemented')
+    }
+    async deleteMany(query){ 
+        throw new Error('deleteMany -> not implemented')
+    }
+}
