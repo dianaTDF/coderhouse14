@@ -5,6 +5,11 @@ class Service{
     async getProducts(){
         return await productMongooseDao.readMany({})
     }
+
+    async addProducts(productData){
+        const product = await productMongooseDao.create(productData)
+        return product
+    }
 }
 
 

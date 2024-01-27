@@ -25,7 +25,8 @@ const Product = model(collection,schema)
 
 class productMongooseDao {
     async create(data){ 
-        throw new Error('create -> not implemented')
+        const product = Product.create(data).toObject()
+        return product
     }
     async read(query){ 
         return await Product.findOne(query).lean()
@@ -48,3 +49,31 @@ class productMongooseDao {
 }
 
 export const productMongooseDao = new productMongooseDao()
+
+
+/* 
+class productMongooseDao {
+    async create(data){ 
+        throw new Error('create -> not implemented')
+    }
+    async read(query){ 
+        return await Product.findOne(query).lean()
+    }
+    async readMany(query){ 
+        return await Product.find(query).lean()
+    }
+    async update(data,query){ 
+        throw new Error('update -> not implemented')
+    }
+    async updateMany(data,query){ 
+        throw new Error('updateMany -> not implemented')
+    }
+    async delete(query){ 
+        throw new Error('delete -> not implemented')
+    }
+    async deleteMany(query){ 
+        throw new Error('deleteMany -> not implemented')
+    }
+}
+
+*/

@@ -10,3 +10,13 @@ export async function getController(req,res){
         next(error)        
     }
 }
+
+export async function postController(req,res){
+    try {
+        const products= await productService.addProducts(req.body)
+        res.created(products) 
+            
+    } catch (error) {
+        next(error)        
+    }
+}
