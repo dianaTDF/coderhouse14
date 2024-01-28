@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+/* import dotenv from 'dotenv'
 import Command  from 'commmander'
 
 const program = new Command()
@@ -6,7 +6,7 @@ program
 .option('-p, --prod','variables de entorno',false)
 .parse()
 
-const {prod}= program.opts()
+const {prod}= program.opts() */
 
 //clase 13 3.16.0
 

@@ -1,4 +1,4 @@
-import express from "express"
+import express  from "express"
 import { router as apiRouter } from "./router/api/api.router.js"
 import { router as webRouter } from "./router/web/web.router.js"
 

@@ -1,8 +1,11 @@
-import {mongoose,model} from "mongoose"
+import {mongoose,model, connect} from "mongoose"
 import {randomUUID} from 'node:crypto'
-import mongoosePaginate from 'mongoose-paginate-v2'
+//import mongoosePaginate from 'mongoose-paginate-v2'
+import { MONGODB_CNX_STR } from "../../config/config.js";
+
 
 const collection = "products"
+//Schema.plugin(mongoosePaginate)
 
 const schema = new mongoose.Schema({
     _id:{type:String, default:randomUUID},
@@ -19,14 +22,13 @@ const schema = new mongoose.Schema({
     versionKey: false
 })
 
-schema.plugin(mongoosePaginate)
 const Product = model(collection,schema)
 
 
-class productMongooseDao {
+class ProductMongooseDao {
     async create(data){ 
-        const product = Product.create(data).toObject()
-        return product
+        const product = await Product.create(data)
+        return product.toObject()
     }
     async read(query){ 
         return await Product.findOne(query).lean()
@@ -34,21 +36,32 @@ class productMongooseDao {
     async readMany(query){ 
         return await Product.find(query).lean()
     }
-    async update(data,query){ 
-        throw new Error('update -> not implemented')
+    async update(query,data){ 
+        //findOneAndUpdate(query,data).lean()
+        //const product = await Product.updateOne(query,data).lean()
+        //return product
+        return await Product.updateOne(query,data).lean()
+        //throw new Error('update -> not implemented')
     }
-    async updateMany(data,query){ 
-        throw new Error('updateMany -> not implemented')
+    async updateMany(query,data){ 
+        return await Product.updateMany(query,data).lean()
+        //throw new Error('updateMany -> not implemented')
+        
     }
     async delete(query){ 
-        throw new Error('delete -> not implemented')
+        return await Product.deleteOne(query)
+        //throw new Error('delete -> not implemented')
     }
     async deleteMany(query){ 
-        throw new Error('deleteMany -> not implemented')
+        return await Product.deleteMany(query)
+        //throw new Error('deleteMany -> not implemented')
     }
 }
 
-export const productMongooseDao = new productMongooseDao()
+
+await connect(MONGODB_CNX_STR)
+console.log('conectado a mongodb')
+export const productMongooseDao = new ProductMongooseDao()
 
 
 /* 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getController, postController } from "../../controller/product.controller.js";
+import { deleteController, getController, postController, putController } from "../../controller/product.controller.js";
 
 export const router = Router()
 
@@ -8,5 +8,6 @@ export const router = Router()
 })
  */
 router.get('/',getController)
-
 router.post('/',postController)
+router.put('/:_id',putController)
+router.delete('/:_id',deleteController)
