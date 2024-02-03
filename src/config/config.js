@@ -1,15 +1,8 @@
-/* import dotenv from 'dotenv'
-import Command  from 'commmander'
+import dotenv from 'dotenv'
 
-const program = new Command()
-program 
-.option('-p, --prod','variables de entorno',false)
-.parse()
+dotenv.config()
 
-const {prod}= program.opts() */
+export const MONGODB_CNX_STR= process.env.MONGODB_CNX_STR
+export const PORT= process.env.PORT
+export const JWT_PRIVATE_KEY= process.env.JWT_PRIVATE_KEY
 
-//clase 13 3.16.0
-
-export const MONGODB_CNX_STR = "mongodb://localhost/class13"
-export const PORT =8080
-export const JWT_PRIVATE_KEY = "jwt"

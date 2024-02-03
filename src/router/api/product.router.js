@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteController, getController, postController, putController } from "../../controller/product.controller.js";
+import { deleteController, getController,getAllController, postController, putController } from "../../controller/product.controller.js";
 
 export const router = Router()
 
@@ -7,7 +7,8 @@ export const router = Router()
     res.json({'router':'product'})
 })
  */
-router.get('/',getController)
+router.get('/',getAllController)
+router.get('/:_id',getController)
 router.post('/',postController)
 router.put('/:_id',putController)
 router.delete('/:_id',deleteController)

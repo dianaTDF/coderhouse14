@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     _id:{type:String, default:randomUUID},
     username:{type:String,required:true},
     first_name:{type:String,required:true},
-    first_name:{type:String,required:true},
+    last_name:{type:String,required:true},
     age:{type:Number,required:true},
     email:{type:String,unique:true,required:true},
     password:{type:String,required:true},
@@ -88,5 +88,5 @@ class UserMongooseDao {
 }
 
 await connect(MONGODB_CNX_STR)
-console.log('conectado a mongodb')
+console.log('User conectado a mongodb')
 export const userMongooseDao = new UserMongooseDao()

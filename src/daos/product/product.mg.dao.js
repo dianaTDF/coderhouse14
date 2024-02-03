@@ -1,7 +1,7 @@
 import {mongoose,model, connect} from "mongoose"
 import {randomUUID} from 'node:crypto'
-//import mongoosePaginate from 'mongoose-paginate-v2'
 import { MONGODB_CNX_STR } from "../../config/config.js";
+//import mongoosePaginate from 'mongoose-paginate-v2'
 
 
 const collection = "products"
@@ -37,9 +37,6 @@ class ProductMongooseDao {
         return await Product.find(query).lean()
     }
     async update(query,data){ 
-        //findOneAndUpdate(query,data).lean()
-        //const product = await Product.updateOne(query,data).lean()
-        //return product
         return await Product.updateOne(query,data).lean()
         //throw new Error('update -> not implemented')
     }
@@ -60,7 +57,7 @@ class ProductMongooseDao {
 
 
 await connect(MONGODB_CNX_STR)
-console.log('conectado a mongodb')
+console.log('Product conectado a mongoDb')
 export const productMongooseDao = new ProductMongooseDao()
 
 

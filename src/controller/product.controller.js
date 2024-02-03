@@ -1,11 +1,19 @@
 import { productService } from "../service/product.service.js"
 
 
+export async function getAllController(req,res,next){
+    try {
+        const products= await productService.getProducts()
+        res.result(products) 
+    } catch (error) {
+        next(error)        
+    }
+}
+
 export async function getController(req,res,next){
     try {
-        const products= await productService.getProducts(req.body)
+        const products= await productService.getProduct(req.params)
         res.result(products) 
-            
     } catch (error) {
         next(error)        
     }
@@ -35,7 +43,6 @@ export async function putController(req,res,next){
 
 export async function deleteController(req,res,next){
     try {
-        console.log(req.params)
         const products= await productService.deleteProduct(req.params)
         res.created(products) 
             
@@ -43,3 +50,4 @@ export async function deleteController(req,res,next){
         next(error)        
     }
 }
+

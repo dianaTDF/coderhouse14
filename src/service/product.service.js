@@ -1,7 +1,6 @@
 import { productMongooseDao } from "../daos/product/product.mg.dao.js"
 
 class Service{
-
     async addProducts(productData){
         const product = await productMongooseDao.create(productData)
         return product
@@ -19,13 +18,14 @@ class Service{
         return await productMongooseDao.update(searchData,productData)
     }
 
-/*     async putProducts(productData){
-        return await productMongooseDao.updateMany(productData)
-    }
- */
+
     async deleteProduct(searchData){
         return await productMongooseDao.delete(searchData)
     }
+/*     async putProducts(productData){
+    return await productMongooseDao.updateMany(productData)
+}
+*/
 /* 
     async deleteProducts(){
         return await productMongooseDao.deleteMany({})

@@ -8,6 +8,7 @@ app.listen(8080, ()=>{
     console.log(`conected to port ${8080}`)
 })
 
+
 app.use(express.json())
 app.use(express.urlencoded({ extended:true}))
 app.use('/static',express.static('./static'))
