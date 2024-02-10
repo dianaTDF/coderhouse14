@@ -56,9 +56,16 @@ class ProductMongooseDao {
 }
 
 
-await connect(MONGODB_CNX_STR)
-console.log('Product conectado a mongoDb')
-export const productMongooseDao = new ProductMongooseDao()
+//lazycreate
+let productMongooseDao
+export async function getDao(){
+    if(!productMongooseDao){
+        await connect(MONGODB_CNX_STR)
+        console.log('Product conectado a mongoDb')
+        productMongooseDao = new ProductMongooseDao()        
+    }
+    return productMongooseDao
+}
 
 
 /* 

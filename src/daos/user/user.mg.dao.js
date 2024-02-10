@@ -87,6 +87,17 @@ class UserMongooseDao {
     }
 }
 
+
+let userMongooseDao
+export async function getDao(){
+    if(!userMongooseDao){
+        await connect(MONGODB_CNX_STR)
+        console.log('User conectado a mongodb')
+        userMongooseDao = new UserMongooseDao()
+    }
+    return userMongooseDao
+}
+/* 
 await connect(MONGODB_CNX_STR)
 console.log('User conectado a mongodb')
-export const userMongooseDao = new UserMongooseDao()
+export const userMongooseDao = new UserMongooseDao() */

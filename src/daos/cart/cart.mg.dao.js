@@ -85,6 +85,15 @@ class CartMongooseDao {
     }
 }
 
-await connect(MONGODB_CNX_STR)
+let cartMongooseDao
+export async function getDao(){
+    if(!cartMongooseDao){
+        await connect(MONGODB_CNX_STR)
+        console.log('Cart conectado a mongoDb')
+        cartMongooseDao = new CartMongooseDao()        
+    }
+    return cartMongooseDao
+}
+/* await connect(MONGODB_CNX_STR)
 console.log('Cart conectado a mongoDb')
-export const cartMongooseDao = new CartMongooseDao()
+export const cartMongooseDao = new CartMongooseDao() */
