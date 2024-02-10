@@ -8,7 +8,7 @@ export async function connect(){
     
     
     }else{
-        console.log('Usando archivos json para persistencia')
+         console.log('Usando archivos json para persistencia')
     
     }
         
