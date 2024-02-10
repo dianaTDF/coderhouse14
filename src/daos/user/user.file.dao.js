@@ -1,3 +1,6 @@
+import {randomUUID} from 'node:crypto'
+
+
 
 class Product {
     #_id
@@ -81,7 +84,7 @@ class Product {
 
 
 
-class UserFileDao {
+export class UserFileDao {
 
     constructor(path){
         this.path = path
@@ -129,9 +132,9 @@ class UserFileDao {
 }
 
 //singelton
-const userFileDao = new UserFileDao('./db/user.json')
+/* const userFileDao = new UserFileDao('./db/user.json')
 console.log('User usando archivos json para persistencia')
 
 export async function getDao(){
     return userFileDao 
-}
+} */

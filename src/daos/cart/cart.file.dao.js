@@ -23,7 +23,7 @@ class Cart {
 
 
 
-class CartFileDao {
+export class CartFileDao {
 
     constructor(path){
         this.path = path
@@ -63,9 +63,9 @@ class CartFileDao {
 }
 
 //singelton
-const cartFileDao = new CartFileDao('./db/product.json')
+/* const cartFileDao = new CartFileDao('./db/product.json')
 console.log('Product usando archivos json para persistencia')
 
 export async function getDao(){
     return cartFileDao 
-}
+} */

@@ -1,28 +1,29 @@
-import { userMongooseDao } from "../daos/user/user.mg.dao.js"
+import { getDao } from "../daos/user/user.dao.js"
 
+const userDao = getDao()
 
 class Service{
 
     async addUser(userData){
-        const product = await userMongooseDao.create(userData)
+        const product = await userDao.create(userData)
         return product
     }
 
     async getUser(searchData){
-        return await userMongooseDao.read(searchData)
+        return await userDao.read(searchData)
     }
 
     async getUsers(searchData){
-        return await userMongooseDao.readMany(searchData)
+        return await userDao.readMany(searchData)
     }
 
     async putUser(searchData,userData){
-        return await userMongooseDao.update(searchData,userData)
+        return await userDao.update(searchData,userData)
     }
 
 
     async deleteUser(searchData){
-        return await userMongooseDao.delete(searchData)
+        return await userDao.delete(searchData)
     }
     
 }

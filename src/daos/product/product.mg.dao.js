@@ -1,13 +1,13 @@
-import {mongoose,model, connect} from "mongoose"
+import {Schema,model} from "mongoose"
 import {randomUUID} from 'node:crypto'
-import { MONGODB_CNX_STR } from "../../config/config.js";
+import { toPojo } from "../../utils/toPOJO.js";
 //import mongoosePaginate from 'mongoose-paginate-v2'
 
 
 const collection = "products"
 //Schema.plugin(mongoosePaginate)
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id:{type:String, default:randomUUID},
     title:{type:String,required:true, index:true},
     description:{type:String,required:true},
@@ -25,23 +25,29 @@ const schema = new mongoose.Schema({
 const Product = model(collection,schema)
 
 
-class ProductMongooseDao {
+export class ProductMongooseDao {
     async create(data){ 
         const product = await Product.create(data)
-        return product.toObject()
+        return toPojo(product)
+        //return product.toObject()
     }
     async read(query){ 
-        return await Product.findOne(query).lean()
+        let product =await Product.findOne(query)
+        return toPojo(product)
+
     }
     async readMany(query){ 
-        return await Product.find(query).lean()
+        let products= await Product.find(query)
+        return toPojo(products)
     }
     async update(query,data){ 
-        return await Product.updateOne(query,data).lean()
+        let product= await Product.updateOne(query,data)
+        return toPojo(product)        
         //throw new Error('update -> not implemented')
     }
     async updateMany(query,data){ 
-        return await Product.updateMany(query,data).lean()
+        let products= await Product.updateMany(query,data).lean()
+        return toPojo(products)        
         //throw new Error('updateMany -> not implemented')
         
     }
@@ -57,7 +63,7 @@ class ProductMongooseDao {
 
 
 //lazycreate
-let productMongooseDao
+/* let productMongooseDao
 export async function getDao(){
     if(!productMongooseDao){
         await connect(MONGODB_CNX_STR)
@@ -65,7 +71,7 @@ export async function getDao(){
         productMongooseDao = new ProductMongooseDao()        
     }
     return productMongooseDao
-}
+} */
 
 
 /* 

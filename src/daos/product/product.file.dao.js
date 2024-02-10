@@ -94,7 +94,7 @@ class Product {
 
 
 
-class ProductFileDao {
+export class ProductFileDao {
 
     constructor(path){
         this.path = path
@@ -142,9 +142,10 @@ class ProductFileDao {
 }
 
 //singelton
-const productFileDao = new ProductFileDao('./db/product.json')
+/* const productFileDao = new ProductFileDao('./db/product.json')
 console.log('Product usando archivos json para persistencia')
 
 export async function getDao(){
     return productFileDao 
 }
+ */

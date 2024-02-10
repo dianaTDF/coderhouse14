@@ -1,12 +1,12 @@
-import { Schema, model, connect } from "mongoose";
+import {Schema , model } from "mongoose";
 
-import mongoose from "mongoose";
 import {randomUUID} from 'node:crypto'
 import { encrypt } from "../../utils/cripyograpy.js";
-import { MONGODB_CNX_STR } from "../../config/config.js";
+//import { MONGODB_CNX_STR } from "../../config/config.js";
+import { toPojo } from "../../utils/toPOJO.js";
 
 const collection ="User"
-const schema = new mongoose.Schema({
+const schema = new Schema({
     _id:{type:String, default:randomUUID},
     username:{type:String,required:true},
     first_name:{type:String,required:true},
@@ -56,24 +56,29 @@ const schema = new mongoose.Schema({
 const User = model(collection,schema)
 
 
-class UserMongooseDao {
+export class UserMongooseDao {
     async create(data){ 
         const user = await User.create(data)
-        return user.toObject()
+        return toPojo(user.toObject()) 
         //throw new Error('create -> not implemented')
     }
     async read(query){ 
-        return await User.findOne(query).lean()
+        const user = await User.findOne(query).lean()
+        return toPojo(user)
     }
     async readMany(query){ 
-        return await User.find(query).lean()
+        const users = await User.find(query).lean()
+        return toPojo(users)
+
     }
     async update(query,data){ 
-        return await User.updateOne(query,data).lean()
+        const user = await User.updateOne(query,data).lean()
+        return toPojo(user)
         //throw new Error('update -> not implemented')
     }
     async updateMany(query,data){ 
-        return await User.updateMany(query,data).lean()
+        const users = await User.updateMany(query,data).lean()
+        return toPojo(users)
         //throw new Error('updateMany -> not implemented')
     }
     async delete(query){ 
@@ -88,7 +93,7 @@ class UserMongooseDao {
 }
 
 
-let userMongooseDao
+/* let userMongooseDao
 export async function getDao(){
     if(!userMongooseDao){
         await connect(MONGODB_CNX_STR)
@@ -96,7 +101,7 @@ export async function getDao(){
         userMongooseDao = new UserMongooseDao()
     }
     return userMongooseDao
-}
+} */
 /* 
 await connect(MONGODB_CNX_STR)
 console.log('User conectado a mongodb')

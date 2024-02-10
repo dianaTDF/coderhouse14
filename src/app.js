@@ -1,7 +1,9 @@
 import express  from "express"
 import { router as apiRouter } from "./router/api/api.router.js"
 import { router as webRouter } from "./router/web/web.router.js"
+import { connect } from "./database/database.js"
 
+await connect
 const app = express( )
 
 app.listen(8080, ()=>{
