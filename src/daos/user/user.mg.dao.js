@@ -1,7 +1,7 @@
 import {Schema , model } from "mongoose";
 
 import {randomUUID} from 'node:crypto'
-import { encrypt } from "../../utils/cripyograpy.js";
+import { encrypt, hash, sameHash } from "../../utils/cripyograpy.js";
 //import { MONGODB_CNX_STR } from "../../config/config.js";
 import { toPojo } from "../../utils/toPOJO.js";
 
@@ -28,7 +28,7 @@ const schema = new Schema({
                     userData.password= await hash(userData.password)
                 }
                 const user= await this.create(userData)
-                return user.toObject()                    
+                return user                    
             } catch (error) {
                 const theError= new Error(error.message)
                 theError['type']='INVALID_ARGUMENT'
@@ -59,7 +59,22 @@ const User = model(collection,schema)
 export class UserMongooseDao {
     async create(data){ 
         const user = await User.create(data)
-        return toPojo(user.toObject()) 
+        return toPojo(user) 
+        //throw new Error('create -> not implemented')
+    }
+    async create(data){ 
+        let list =[]
+        if(Array.isArray(data)){
+            for (const item of data) {
+                //console.log(data.email)
+                let user = await User.register(item)
+                list.push(toPojo(user)) 
+            }    
+            return list 
+        }else{
+            let user = await User.register(data)
+            return toPojo(user) 
+        }
         //throw new Error('create -> not implemented')
     }
     async read(query){ 
@@ -87,7 +102,7 @@ export class UserMongooseDao {
         //throw new Error('delete -> not implemented')
     }
     async deleteMany(query){ 
-        return await User.deleteMany(query)
+        return await User.deleteMany()
         //throw new Error('deleteMany -> not implemented')
     }
 }

@@ -1,36 +1,42 @@
-import { getDao } from "../daos/user/user.dao.js"
+//import { getDao } from "../daos/user/user.dao.js"
 
-const userDao = getDao()
+//const userDao = getDao()
 
-class Service{
+export class Service{
+    constructor (dao){
+        this.dao= dao
+    }
 
     async addUser(userData){
-        const product = await userDao.create(userData)
+        const product = await this.dao.create(userData)
         return product
     }
 
     async getUser(searchData){
-        return await userDao.read(searchData)
+        return await this.dao.read(searchData)
     }
 
     async getUsers(searchData){
-        return await userDao.readMany(searchData)
+        return await this.dao.readMany(searchData)
     }
 
     async putUser(searchData,userData){
-        return await userDao.update(searchData,userData)
+        return await this.dao.update(searchData,userData)
     }
 
 
     async deleteUser(searchData){
-        return await userDao.delete(searchData)
+        return await this.dao.delete(searchData)
+    }
+    async deleteUsers(searchData){
+        return await this.dao.deleteMany(searchData)
     }
     
 }
 
 
 
-export const userService= new Service()
+//export const userService= new Service()
 
 
 

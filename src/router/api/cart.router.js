@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteController,deleteProductController,getAllController ,getController, postController, putController, putProductController } from "../../controller/cart.controller.js";
+import { deleteController,deleteProductController,getAllController ,getController, postController, putController, putProductController, putProductsController,purchaseController } from "../../controller/cart.controller.js";
 
 export const router = Router()
 
@@ -10,8 +10,9 @@ export const router = Router()
 router.get('/:_id',getAllController)
 router.get('/',getController)
 router.post('/',postController)
-router.put('/:_id',putController)
+router.post('/:_id/purchase,',purchaseController)
+//router.put('/:_id',putController)
 router.delete('/:_id',deleteController)
-//por hacer
+router.put('/:_id/products/',putProductsController)
 router.put('/:_id/products/:_pid',putProductController)
 router.delete('/:_id/products/:_pid',deleteProductController)

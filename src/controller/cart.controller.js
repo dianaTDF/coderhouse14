@@ -1,4 +1,4 @@
-import { cartService } from "../service/cart.service.js"
+import { cartService } from "../service/index.js"
 
 export async function getAllController(req,res,next){
     try {
@@ -54,6 +54,15 @@ export async function putProductController(req,res,next){
     }
 }
 
+export async function putProductsController(req,res,next){
+    try {
+        const carts= await cartService.addProductsToCart(req.params,req.body)
+        res.created(carts)
+    } catch (error) {
+        next(error)
+    }
+}
+
 export async function deleteProductController(req,res,next){
     try {
         const carts= await cartService.deleteProductFromCart(req.params)
@@ -61,4 +70,8 @@ export async function deleteProductController(req,res,next){
     } catch (error) {
         next(error)
     }
+}
+
+export async function purchaseController(req,res,next){
+    return "Hola"
 }

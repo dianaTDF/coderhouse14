@@ -1,30 +1,34 @@
 //import { productMongooseDao } from "../daos/product/product.mg.dao.js"
-import { getDao } from "../daos/product/product.dao.js"
+/* import { getDao } from "../daos/product/product.dao.js"
 
 
-const productDao= getDao()
+const productDao= getDao() */
 
-class Service{
+export class Service{
+    constructor (dao){
+        this.dao= dao
+    }
+
     async addProducts(productData){
-        const product = await productDao.create(productData)
+        const product = await this.dao.create(productData)
         return product
     }
 
     async getProduct(searchData){
-        return await productDao.read(searchData)
+        return await this.dao.read(searchData)
     }
 
     async getProducts(searchData){
-        return await productDao.readMany(searchData)
+        return await this.dao.readMany(searchData)
     }
 
     async putProduct(searchData,productData){
-        return await productDao.update(searchData,productData)
+        return await this.dao.update(searchData,productData)
     }
 
 
     async deleteProduct(searchData){
-        return await productDao.delete(searchData)
+        return await this.dao.delete(searchData)
     }
 /*     async putProducts(productData){
     return await productMongooseDao.updateMany(productData)
@@ -38,4 +42,4 @@ class Service{
 }
 
 
-export const productService = new Service()
+//export const productService = new Service()

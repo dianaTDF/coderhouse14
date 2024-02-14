@@ -28,6 +28,5 @@ if(ONLINE_MODE == 'online'){
 
 export function getDao(){
     return cartDao
-
 }
 

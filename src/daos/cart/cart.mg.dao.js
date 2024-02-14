@@ -14,11 +14,14 @@ const schema = new Schema({
                         ref:'products'},
                 counter:{type:Number,min:1}
                 }],
+        required:true,
         default:[]
         },
 }, {
     strict: 'throw',
-    versionKey: false
+    versionKey: false,
+    statics: {
+    }
 })
 
 
@@ -32,10 +35,18 @@ const Cart = model(collection,schema)
 
 export class CartMongooseDao {
     async create(data){ 
-        let cart = await Cart.create(data)
+        let cart = await Cart.create({})
+
+        console.log(toPojo(cart))
+        let id=cart._id
+        if(data.length > 0 ){
+            for (const item of data) {
+                cart= await Cart.findByIdAndUpdate({_id:id},
+                    { $push: { products: { product: item._pid, counter: item.counter} } },
+                    { new: true})
+            }
+        }
         return toPojo(cart)
-        //return cart.toObject()
-        //throw new Error('create -> not implemented')
     }
     async read(query){ 
         let cart= await Cart.findOne(query).lean()
@@ -65,21 +76,47 @@ export class CartMongooseDao {
     }
 
     async addProduct(query,data){ 
-        console.log(data.counter)
-        let {counter} = data.counter 
-
-        //si existe ese producto en el array
+        
         let cart= await Cart.findOneAndUpdate({_id:query._id, 'products.product':query._pid},
-        { $set:{'products.$.counter':counter} }, 
+        { $set:{'products.$.counter':data.counter} }, 
         { new: true})
 
         //su no existe ese producto en el array
         if(!cart){
             let cart= await Cart.findByIdAndUpdate({_id:query._id},
-            { $push: { products: { product: query._pid, counter: counter} } })
-        }
+            { $push: { products: { product: query._pid, counter: counter} } },
+            { new: true})
+         }
 
-        return cart
+        return toPojo(cart)
+    }
+
+    async addProducts(query,data){ 
+        
+        for (const item of data) {
+            let cart= await Cart.findOneAndUpdate({_id:query._id, 'products.product':item._pid},
+            { $inc: { 'products.$.counter': item.counter } },
+            {new: true })//intente hacer el update con la opcion upsert: true, pero tiraba error
+
+            if (cart==null){
+                cart= await Cart.findByIdAndUpdate({_id:query._id},
+                    { $push: { products: { product: item._pid, counter: item.counter} } })
+            }
+
+            let thisCarProducts =cart.products
+            if(//si por alguna razon el valor es nulo o negativo, considerara que debe eliminarlo en lugar de  tirar error
+                thisCarProducts.find((e)=> {
+                    return e.product === item._pid;
+                  }).counter < 1
+            ){
+                await this.deleteProduct({_id:query._id, _pid:item._pid})
+            }
+            
+        }
+  
+        let result = await Cart.findOne({_id:query._id})
+        return toPojo(result)
+
     }
     
     async deleteProduct(query){ 

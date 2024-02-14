@@ -1,5 +1,4 @@
-import { productService } from "../service/product.service.js"
-
+import { productService } from "../service/index.js"
 
 export async function getAllController(req,res,next){
     try {

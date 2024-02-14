@@ -1,4 +1,4 @@
-import { userService } from "../service/user.service.js"
+import { userService } from "../service/index.js"
 
 export async function getAllController(req,res,next){
     try {
@@ -39,6 +39,15 @@ export async function putController(req,res,next){
 export async function deleteController(req,res,next){
     try{
         const users= await userService.deleteUser(req.params)
+        res.created(users)
+    }catch(error){
+        next(error)
+
+    }
+}
+export async function deleteAllController(req,res,next){
+    try{
+        const users= await userService.deleteUsers(req.params)
         res.created(users)
     }catch(error){
         next(error)

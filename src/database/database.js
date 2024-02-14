@@ -1,5 +1,5 @@
 import { connect as mongooseConnection} from "mongoose"
-import { MONGODB_CNX_STR, ONLINE_MODE } from "../../config/config.js";
+import { MONGODB_CNX_STR, ONLINE_MODE } from "../config/config.js";
 
 export async function connect(){
     if(ONLINE_MODE == 'online'){
