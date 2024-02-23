@@ -12,6 +12,13 @@ const schema = new Schema({
     first_name:{type:String,required:true},
     last_name:{type:String,required:true},
     age:{type:Number,required:true},
+    rol:{
+        type: String,
+        enum: ['admin', 'user','tecnic','seller']
+      },
+    cart_id:{type:String,
+            ref:'carts'
+    },
     email:{type:String,unique:true,required:true},
     password:{type:String,required:true},
     picture:{type:String,default:''},
@@ -28,30 +35,38 @@ const schema = new Schema({
                     userData.password= await hash(userData.password)
                 }
                 const user= await this.create(userData)
-                return user                    
+                return toPojo(user)
+                //return user                    
             } catch (error) {
                 const theError= new Error(error.message)
                 theError['type']='INVALID_ARGUMENT'
                 throw theError
             }
         },
-        authenticate: async function(username, password){
+        authenticate: async function(query){
+            let {username, password}= query
             const user = await User.findOne({username})
-            if (!user && !sameHash(password, user.password)) {
+            if (!user) {
                 const typedError =  new Error('authentication error')      
                 typedError['type']= 'FAILED_AUTHENTICATION'
                 throw typedError
             }
-/*             if(!sameHash(password, user.password)){
+            if (!sameHash(password, user.password)) {
                 const typedError =  new Error('authentication error')      
                 typedError['type']= 'FAILED_AUTHENTICATION'
                 throw typedError
-            }
- */            
-            return user.toObject()
+            }        
+            return toPojo(user)
         }
     }
 })
+
+schema.pre(['find', 'findOne', 'findById'],function(next){
+    this.populate('carts.cart')
+    next()
+})
+
+
 
 const User = model(collection,schema)
 
@@ -103,6 +118,12 @@ export class UserMongooseDao {
     }
     async deleteMany(query){ 
         return await User.deleteMany()
+        //throw new Error('deleteMany -> not implemented')
+    }
+    
+    
+    async authenticate(query){ 
+        return await User.authenticate(query)
         //throw new Error('deleteMany -> not implemented')
     }
 }

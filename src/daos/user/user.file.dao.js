@@ -129,6 +129,10 @@ export class UserFileDao {
     async deleteMany(query){ 
         throw new Error('deleteMany -> not implemented')
     }
+    
+    async authenticate(query){ 
+        throw new Error('authenticate -> not implemented')
+    }
 }
 
 //singelton

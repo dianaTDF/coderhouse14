@@ -6,6 +6,9 @@ export function errorHandler (error, req,res,next){
         case 'FAILED_AUTHENTICATION':
             res.status(401)
             break
+        case 'FAILED_AUTHORIZATION':
+            res.status(403)
+            break
         default:
             res.status(500)
             break

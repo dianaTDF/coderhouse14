@@ -1,5 +1,7 @@
 import { userService } from "../service/index.js"
 
+
+
 export async function getAllController(req,res,next){
     try {
         const users= await userService.getUsers()
@@ -52,5 +54,14 @@ export async function deleteAllController(req,res,next){
     }catch(error){
         next(error)
 
+    }
+}
+export async function loginController(req,res,next){ 
+    try {     
+        const user = await userService.authenticateUser(req.body)
+        req.user = user
+        next()
+    } catch (error) {
+        next(error)
     }
 }

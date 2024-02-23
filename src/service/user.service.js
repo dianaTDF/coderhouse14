@@ -31,6 +31,12 @@ export class Service{
     async deleteUsers(searchData){
         return await this.dao.deleteMany(searchData)
     }
+
+    async authenticateUser(searchData){
+        return await this.dao.authenticate(searchData)
+
+        //return await this.dao.deleteMany(searchData)
+    }
     
 }
 
